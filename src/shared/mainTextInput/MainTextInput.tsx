@@ -20,6 +20,11 @@ export class MainTextInput {
     line: number;
 
     /**
+     * Наценка.
+     */
+    markup: number;
+    
+    /**
      * Максимальный размер шрифта.
      */
     readonly maxFontSize: number = 150;
@@ -28,11 +33,13 @@ export class MainTextInput {
         this.text = "";
         this.fontSize = 1;
         this.line = 0;
+        this.markup = 0;
         makeObservable(this,
             {
                 text: observable,
                 fontSize: observable,
                 line: observable,
+                markup: observable,
                 setText: action,
                 setLine: action
             });
@@ -61,6 +68,16 @@ export class MainTextInput {
     setFontSize(fontSize: number) {
         if (fontSize <= this.maxFontSize && fontSize > 0) {
             this.fontSize = fontSize;
+        }
+    }
+
+    /**
+     * Устанавливает наценку в процентах.
+     * @param markup
+     */
+    setMarkup(markup: number){
+        if (markup > 0){
+            this.markup = markup;
         }
     }
 }

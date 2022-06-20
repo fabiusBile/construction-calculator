@@ -5,13 +5,12 @@ import {observer} from "mobx-react-lite";
 
 /**
  * Регулярное выражение для проверки текста.
- * @type {RegExp}
  */
-const textRegex = /^[А-яA-z,."'!0-9-\s\-+=?]+$/gm;
+const textRegex = /^[А-яA-z,."'!\d-\s+=?]*$/gm;
 
 function MainTextInputView({mainTextInput}: { mainTextInput: MainTextInput }) {
     return (
-        <Box display="grid" gridTemplateColumns="2fr 1fr 1fr" gap={1}>
+        <Box display="grid" gridTemplateColumns="3fr 1fr 1fr 1fr" gap={1}>
             <FilteredTextField 
                 sx = {{
                     flex: 1
@@ -46,6 +45,19 @@ function MainTextInputView({mainTextInput}: { mainTextInput: MainTextInput }) {
                 }}
                 onChange={(e) => {
                     mainTextInput.setLine(Number(e.target.value))
+                }}
+            />
+            <TextField
+                required
+                label="Наценка"
+                value={mainTextInput.markup}
+                type="number"
+                InputProps={{
+                    inputProps:{min:0},
+                    endAdornment: <InputAdornment position="end">%</InputAdornment>
+                }}
+                onChange={(e) => {
+                    mainTextInput.setMarkup(Number(e.target.value))
                 }}
             />
         </Box>

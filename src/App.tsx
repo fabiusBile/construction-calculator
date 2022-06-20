@@ -31,6 +31,9 @@ import FrontCalculatorView from "./calculators/front/FrontCalculatorView";
 import getSideMaterials from "./calculators/side/SideMateriialRepository";
 import SideCalculator from "./calculators/side/SideCalculator";
 import SideCalculatorView from "./calculators/side/SideCalculatorView";
+import {getDiodes, getPowerSupplies} from "./calculators/diodes/DiodesRepository";
+import DiodesCalculator from "./calculators/diodes/DiodesCalculator";
+import DiodesCalculatorView from "./calculators/diodes/DiodesCalculatorView";
 
 const rouble = "₽";
 
@@ -38,7 +41,7 @@ const rouble = "₽";
 const views: React.ReactElement[] = observable([]);
 const calculators: ICalculatorBlock[] = observable([])
 const mainTextInput = new MainTextInput();
-const viewNames : string[] = observable([]);
+const viewNames: string[] = observable([]);
 
 
 (async () => {
@@ -48,20 +51,25 @@ const viewNames : string[] = observable([]);
     const frameCalculator = new FrameCalculator(GetFrameMaterials())
     const backMaterials = await getBackMaterials();
     const backCalculator = new BackCalculator(backMaterials, mainTextInput, lettersCalculator);
-    
+
     const frontMaterials = await getFrontMaterials();
     const frontCalculator = new FrontCalculator(frontMaterials, mainTextInput, lettersCalculator);
-    
+
     const sideMaterials = await getSideMaterials();
     const sideCalculator = new SideCalculator(sideMaterials, mainTextInput, lettersCalculator);
-    
-    calculators.push(frameCalculator, backCalculator, frontCalculator, sideCalculator);
+
+    const diodesTypes = await getDiodes();
+    const powerSupplies = await getPowerSupplies();
+    const diodesCalculator = new DiodesCalculator(diodesTypes, powerSupplies);
+
+    calculators.push(frameCalculator, backCalculator, frontCalculator, sideCalculator, diodesCalculator);
     views.push(
         <MainTextInputView mainTextInput={mainTextInput}/>,
         <FrameCalculatorView calculator={frameCalculator}/>,
-        <BackCalculatorView calculator={backCalculator} />,
-        <FrontCalculatorView calculator={frontCalculator} />,
-        <SideCalculatorView calculator={sideCalculator}/>
+        <BackCalculatorView calculator={backCalculator}/>,
+        <FrontCalculatorView calculator={frontCalculator}/>,
+        <SideCalculatorView calculator={sideCalculator}/>,
+        <DiodesCalculatorView calculator={diodesCalculator} />
     );
 
     viewNames.push(
@@ -72,6 +80,7 @@ const viewNames : string[] = observable([]);
 
 function priceView({calculators}: { calculators: ICalculatorBlock[] }) {
     const total = calculators.reduce((p, c) => p + (c.getPrice()).price, 0);
+    const totalWithMarkup = total + total * (mainTextInput.markup / 100);
     return (
         <Box>
             <Box sx={{
@@ -103,7 +112,7 @@ function priceView({calculators}: { calculators: ICalculatorBlock[] }) {
                                             detailsKeys.map((key, di) => (
                                                 <ListItem key={di}>
                                                     <Box sx={{
-                                                        flex:1,
+                                                        flex: 1,
                                                         display: 'flex',
                                                         flexDirection: 'row',
                                                         alignItems: 'center',
@@ -139,6 +148,21 @@ function priceView({calculators}: { calculators: ICalculatorBlock[] }) {
                     {total} {rouble}
                 </Typography>
             </Box>
+            <Box sx={{
+                display: 'flex',
+                flexDirection: 'row',
+                alignItems: 'center',
+                gap: 1,
+                my: 1
+            }}>
+            <Typography variant="h6">
+                Итого с наценкой
+            </Typography>
+            <Divider sx={{flex: 1}}></Divider>
+            <Typography>
+                {totalWithMarkup} {rouble}
+            </Typography>
+            </Box>
         </Box>
     )
 }
@@ -172,7 +196,7 @@ function App() {
         </Container>
     ) : (
         <Box display="flex" alignItems="center" justifyContent="center" height="100vh" flexDirection="column" gap={1}>
-            <CircularProgress color="secondary" />
+            <CircularProgress color="secondary"/>
             <Typography align="center">
                 Загрузка...
             </Typography>
@@ -180,4 +204,4 @@ function App() {
     );
 }
 
-export default  observer(App);
+export default observer(App);
