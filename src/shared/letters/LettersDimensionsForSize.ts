@@ -22,5 +22,5 @@ export default interface LettersDimensionsForSize {
      * Список размеров букв.
      * @type {Record<letter, LetterDimensions>}
      */
-    lettersDimensions: Record<letter, LetterDimensions>;
+    lettersDimensions: Partial<Record<letter, LetterDimensions>>;
 }

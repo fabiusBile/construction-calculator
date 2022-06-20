@@ -34,6 +34,7 @@ import SideCalculatorView from "./calculators/side/SideCalculatorView";
 import {getDiodes, getPowerSupplies} from "./calculators/diodes/DiodesRepository";
 import DiodesCalculator from "./calculators/diodes/DiodesCalculator";
 import DiodesCalculatorView from "./calculators/diodes/DiodesCalculatorView";
+import loadPrices from "./spreadsheetsInteraction/worksheetsLoader";
 
 const rouble = "₽";
 
@@ -45,7 +46,8 @@ const viewNames: string[] = observable([]);
 
 
 (async () => {
-    const letterDimensions = await getLettersDimensions();
+    const pricesWorkbook = await loadPrices();
+    const letterDimensions = await getLettersDimensions(pricesWorkbook);
     const lettersCalculator = new LettersDimensionsCalculator(letterDimensions)
 
     const frameCalculator = new FrameCalculator(GetFrameMaterials())

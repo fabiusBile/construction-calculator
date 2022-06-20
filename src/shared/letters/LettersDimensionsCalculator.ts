@@ -1,11 +1,10 @@
 import LettersDimensionsForSize from "./LettersDimensionsForSize";
 import LetterDimensions from "./LetterDimensions";
-import {isValidLetter, letter} from "./Letter";
+import {toLetter} from "./Letter";
 
 export default class LettersDimensionsCalculator {
     dimensionsForSizes: LettersDimensionsForSize[];
 
-    private defaultLetter: letter = 'о';
     
     constructor(dimensionsForSizes: LettersDimensionsForSize[]) {
         this.dimensionsForSizes = dimensionsForSizes;
@@ -24,10 +23,13 @@ export default class LettersDimensionsCalculator {
             return [];
         }
         
-        return  lettersArray.map(l => {
-            const lower = l.toLowerCase();
-            const letter = isValidLetter(lower) ? lower as letter : this.defaultLetter;
-            return dimensionGroup.lettersDimensions[letter]
+        return lettersArray.map(l => {
+            const letter = toLetter(l);
+            const dimensions = dimensionGroup.lettersDimensions[letter];
+            if (dimensions === undefined) {
+                throw new Error(`Не найдены размеры для буквы ${letter}`)
+            }
+            return dimensions;
         })
     }
 }
