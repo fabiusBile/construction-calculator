@@ -47,21 +47,21 @@ const viewNames: string[] = observable([]);
 
 (async () => {
     const pricesWorkbook = await loadPrices();
-    const letterDimensions = await getLettersDimensions(pricesWorkbook);
+    const letterDimensions = getLettersDimensions(pricesWorkbook);
     const lettersCalculator = new LettersDimensionsCalculator(letterDimensions)
 
     const frameCalculator = new FrameCalculator(GetFrameMaterials())
-    const backMaterials = await getBackMaterials();
+    const backMaterials = getBackMaterials(pricesWorkbook);
     const backCalculator = new BackCalculator(backMaterials, mainTextInput, lettersCalculator);
 
-    const frontMaterials = await getFrontMaterials();
+    const frontMaterials = getFrontMaterials(pricesWorkbook);
     const frontCalculator = new FrontCalculator(frontMaterials, mainTextInput, lettersCalculator);
 
     const sideMaterials = await getSideMaterials();
     const sideCalculator = new SideCalculator(sideMaterials, mainTextInput, lettersCalculator);
 
-    const diodesTypes = await getDiodes(pricesWorkbook);
-    const powerSupplies = await getPowerSupplies(pricesWorkbook);
+    const diodesTypes = getDiodes(pricesWorkbook);
+    const powerSupplies = getPowerSupplies(pricesWorkbook);
     const diodesCalculator = new DiodesCalculator(diodesTypes, powerSupplies);
 
     calculators.push(frameCalculator, backCalculator, frontCalculator, sideCalculator, diodesCalculator);

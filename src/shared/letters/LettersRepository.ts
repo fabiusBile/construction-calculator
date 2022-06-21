@@ -10,7 +10,7 @@ const lettersTitleRegex = /^БУКВЫ (?<min>\d+)-(?<max>\d+)СМ$/gi
 /**
  * Возвращает размеры букв.
  */
-export default async function getLettersDimensions(pricesWorkbook: ExcelJS.Workbook): Promise<LettersDimensionsForSize[]> {
+export default function getLettersDimensions(pricesWorkbook: ExcelJS.Workbook): LettersDimensionsForSize[] {
     if (letterDimensionsForSize == null) {
         const sheet = pricesWorkbook.getWorksheet(LETTERS_WORKSHEET_NAME);
         const firstColumn = sheet.getColumn(1);
