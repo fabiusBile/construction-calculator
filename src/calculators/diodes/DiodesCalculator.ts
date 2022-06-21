@@ -66,8 +66,8 @@ export default class DiodesCalculator implements ICalculatorBlock {
                     return {
                         ...g,
                         [power]: {
-                            "count": (g[power]?.count | 0) + e.count,
-                            "price": (g[power]?.price | 0) + e.count * price,
+                            "count": (g[power]?.count ?? 0) + e.count,
+                            "price": (g[power]?.price ?? 0) + e.count * price,
                             "power": power
                         }
                     }

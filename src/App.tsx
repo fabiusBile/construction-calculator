@@ -60,7 +60,7 @@ const viewNames: string[] = observable([]);
     const sideMaterials = await getSideMaterials();
     const sideCalculator = new SideCalculator(sideMaterials, mainTextInput, lettersCalculator);
 
-    const diodesTypes = await getDiodes();
+    const diodesTypes = await getDiodes(pricesWorkbook);
     const powerSupplies = await getPowerSupplies();
     const diodesCalculator = new DiodesCalculator(diodesTypes, powerSupplies);
 

@@ -1,17 +1,28 @@
 import DiodeType from "./DiodeType";
 import DiodesPowerSupply from "./DiodesPowerSupply";
+import ExcelJS from "exceljs";
+
+const DIODES_WORKSHEET_NAME = "Светодиоды";
+
+let diodes : DiodeType[] | null = null;
 
 /**
  * Получает виды диодов с их стоимостью.
  */
-export async function getDiodes () : Promise<DiodeType[]>{
-    return [
-        new DiodeType(0.3, 20),
-        new DiodeType(0.36, 23),
-        new DiodeType(0.72, 28),
-        new DiodeType(1.1, 39),
-        new DiodeType(1.5, 42)
-    ]
+export async function getDiodes (pricesWorkbook: ExcelJS.Workbook) : Promise<DiodeType[]>{
+    if (diodes == null){
+        const sheet = pricesWorkbook.getWorksheet(DIODES_WORKSHEET_NAME);
+        const result:DiodeType[] = [];
+        for (let c = 1; c<= sheet.actualColumnCount; c++){
+            result.push(new DiodeType(
+                Number(sheet.getCell(2,c).text),
+                Number(sheet.getCell(3,c).text)
+            ))
+        } 
+        diodes = result;
+    }
+    
+    return diodes;
 }
 
 /**
