@@ -56,7 +56,7 @@ const viewNames: string[] = observable([]);
     const frontMaterials = getFrontMaterials(pricesWorkbook);
     const frontCalculator = new FrontCalculator(frontMaterials, mainTextInput, lettersCalculator);
 
-    const sideMaterials = await getSideMaterials();
+    const sideMaterials = await getSideMaterials(pricesWorkbook);
     const sideCalculator = new SideCalculator(sideMaterials, mainTextInput, lettersCalculator);
 
     const diodesTypes = getDiodes(pricesWorkbook);

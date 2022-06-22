@@ -1,5 +1,5 @@
 import SideCalculator from "./SideCalculator";
-import {Box, FormControl, InputLabel, MenuItem, Select} from "@mui/material";
+import {Box, FormControl, InputLabel, ListSubheader, MenuItem, Select} from "@mui/material";
 import {observer} from "mobx-react-lite";
 
 function SideCalculatorView({calculator} : {calculator: SideCalculator}){
@@ -17,7 +17,9 @@ function SideCalculatorView({calculator} : {calculator: SideCalculator}){
                     }}
                 >
                     {calculator.materials.map((value, index) =>
-                        (<MenuItem key={index} value={index}>{value.name}</MenuItem>)
+                        value.price === 0
+                            ? (<ListSubheader key={index}>{value.name}</ListSubheader>)
+                            : (<MenuItem key={index} value={index}>{value.name}</MenuItem>)
                     )}
                 </Select>
             </FormControl>

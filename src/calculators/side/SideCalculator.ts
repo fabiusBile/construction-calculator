@@ -22,7 +22,7 @@ export default class SideCalculator implements ICalculatorBlock {
         this.materials = materials;
         this.mainTextInput = mainTextInput;
         this.letterDimensionsCalculator = letterDimensionsCalculator;
-        this.currentMaterialId = 0;
+        this.currentMaterialId = materials.findIndex(m => m.price > 0);
         
         makeObservable(this, {
             currentMaterial: computed,

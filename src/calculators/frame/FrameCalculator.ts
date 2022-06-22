@@ -32,7 +32,7 @@ export default class FrameCalculator implements ICalculatorBlock {
      */
     constructor(materials: FrameMaterial[]) {
         this.materials = materials;
-        this.currentMaterialId = 0;
+        this.currentMaterialId = materials.findIndex(m => m.price > 0);
         makeObservable(this, {
             width: observable,
             height: observable,
