@@ -1,5 +1,5 @@
 import FrameCalculator from "./FrameCalculator";
-import {Box, FormControl, InputAdornment, InputLabel, MenuItem, Select, TextField} from "@mui/material";
+import {Box, FormControl, InputAdornment, InputLabel, ListSubheader, MenuItem, Select, TextField} from "@mui/material";
 import {observer} from "mobx-react-lite";
 
 function FrameCalculatorView({calculator}: { calculator: FrameCalculator }) {
@@ -45,8 +45,9 @@ function FrameCalculatorView({calculator}: { calculator: FrameCalculator }) {
                     }}
                 >
                     {calculator.materials.map((value, index) =>
-                        (<MenuItem key={index} value={index}>{value.name}</MenuItem>)
-                    )}
+                        value.price === 0
+                            ? (<ListSubheader key={index}>{value.name}</ListSubheader>)
+                            : (<MenuItem key={index} value={index}>{value.name}</MenuItem>)                    )}
                 </Select>
             </FormControl>
         </Box>

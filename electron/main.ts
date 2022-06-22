@@ -59,7 +59,7 @@ app.on('activate', () => {
     }
 });
 
-ipcMain.on("requestPrices",  async (event, args) => {
+ipcMain.on("requestPrices",  async () => {
     const pricesDirectory = isDev || process.platform === "win32" 
         ? "./"
         : path.join(path.dirname(app.getPath("exe")),"../");

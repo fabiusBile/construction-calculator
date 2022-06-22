@@ -1,10 +1,27 @@
-import FrameMaterial, {FrameMaterialType} from "./FrameMaterial";
+import FrameMaterial from "./FrameMaterial";
+import ExcelJS from "exceljs";
 
-export default function GetFrameMaterials() : FrameMaterial<FrameMaterialType>[]{
-    return [
-        new FrameMaterial("Тестовый лист 1", 100, "plate"),
-        new FrameMaterial("Тестовый лист 2", 200, "plate"),
-        new FrameMaterial("Тестовая труба 1", 300, "pipe"),
-        new FrameMaterial("Тестовая труба 2", 400, "pipe"),
-    ]
+const FRAME_MATERIALS_WORKSHEET_NAME = "Каркас";
+let frameMaterials : FrameMaterial[] | null;
+
+export default function GetFrameMaterials(pricesWorkbook: ExcelJS.Workbook) : FrameMaterial[]{
+    if (frameMaterials == null) {
+        const sheet = pricesWorkbook.getWorksheet(FRAME_MATERIALS_WORKSHEET_NAME)
+        const result: FrameMaterial[] = [];
+        for (let r = 1; r <= sheet.rowCount; r++) {
+            const name = sheet.getCell(r, 1).text;
+            if (!name) {
+                continue;
+            }
+            result.push(new FrameMaterial(
+                name,
+                Number(sheet.getCell(r, 2).text) / 10000,
+                sheet.getCell(r, 3).text === "Труба" ? "pipe" : "plate" 
+            ))
+        }
+        
+        frameMaterials = result;
+    }
+    
+    return frameMaterials;
 }

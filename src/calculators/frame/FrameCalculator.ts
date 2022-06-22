@@ -1,5 +1,5 @@
 import ICalculatorBlock, {BlockPrice} from "../interfaces/ICalculatorBlock";
-import FrameMaterial, {FrameMaterialType} from "./FrameMaterial";
+import FrameMaterial from "./FrameMaterial";
 import {action, computed, makeObservable, observable} from "mobx";
 
 /**
@@ -10,15 +10,9 @@ export default class FrameCalculator implements ICalculatorBlock {
     /**
      * Материалы каркаса.
      */
-    materials: FrameMaterial<FrameMaterialType>[];
-
-    /**
-     * Выбранный материал.
-     */
-    get currentMaterial() {return this.materials[this.currentMaterialId]};
+    materials: FrameMaterial[];
     
     currentMaterialId: number;
-    
     /**
      * Ширина каркаса.
      */
@@ -36,10 +30,10 @@ export default class FrameCalculator implements ICalculatorBlock {
      * Конструктор по умолчанию.
      * @param materials Материалы каркаса.
      */
-    constructor(materials: FrameMaterial<FrameMaterialType>[]) {
+    constructor(materials: FrameMaterial[]) {
         this.materials = materials;
         this.currentMaterialId = 0;
-        makeObservable(this,  {
+        makeObservable(this, {
             width: observable,
             height: observable,
             currentMaterial: computed,
@@ -51,6 +45,13 @@ export default class FrameCalculator implements ICalculatorBlock {
     }
 
     /**
+     * Выбранный материал.
+     */
+    get currentMaterial() {
+        return this.materials[this.currentMaterialId]
+    };
+
+    /**
      * Выбирает материал.
      * @param materialIndex Индекс материала.
      */
@@ -58,52 +59,46 @@ export default class FrameCalculator implements ICalculatorBlock {
         this.currentMaterialId = materialIndex;
     }
 
-    setWidth(width: number){
+    setWidth(width: number) {
         this.width = width;
     }
-    
-    setHeight(height: number){
+
+    setHeight(height: number) {
         this.height = height;
     }
-    
+
     /**
      * Рассчитывает цену каркаса.
      */
     getPrice(): BlockPrice {
         switch (this.currentMaterial.materialType) {
             case "pipe":
-                return getPipePrice(this.currentMaterial as FrameMaterial<"pipe">, this);
+                return getPipePrice(this.currentMaterial, this);
             case "plate":
-                return getPlatePrice(this.currentMaterial as FrameMaterial<"plate">, this);
+                return getPlatePrice(this.currentMaterial, this);
         }
     }
 }
 
 
-interface getMaterialPrice<T extends FrameMaterialType>{
-    (material: FrameMaterial<T>, frameCalculator: FrameCalculator) : BlockPrice
-}
-
-let getPlatePrice: getMaterialPrice<"plate">;
-getPlatePrice = (fm, c) => {
-    const price = fm.price * c.height * c.width; 
+function getPlatePrice(fm: FrameMaterial, c: FrameCalculator) {
+    const price = fm.price * c.height * c.width;
     return {
         price: price,
         details: {
-            [`${fm.name} ${c.width}x${c.height} см.`]:price
+            [`${fm.name} ${c.width}x${c.height} см.`]: price
         }
     }
 }
 
-let getPipePrice: getMaterialPrice<"pipe">;
-getPipePrice = (fm, c) => {
+function getPipePrice(fm: FrameMaterial, c: FrameCalculator) {
     const horizontalPrice = (fm.price * c.width) * 2
     const verticalPrice = (fm.price * c.height) * 2;
-    const details = horizontalPrice === verticalPrice 
-        ? {[`${fm.name} ${c.width} см. х4`]:horizontalPrice*2}
+    const details = horizontalPrice === verticalPrice
+        ? {[`${fm.name} ${c.width} см. х4`]: horizontalPrice * 2}
         : {
-            [`${fm.name} ${c.width} см. х2`]:horizontalPrice,
-            [`${fm.name} ${c.height} см. х2`]:verticalPrice,
+            [`${fm.name} ${c.width} см. х2`]: horizontalPrice,
+            [`${fm.name} ${c.height} см. х2`]: verticalPrice,
         }
     return {
         price: horizontalPrice + verticalPrice,

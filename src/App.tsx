@@ -49,7 +49,7 @@ const viewNames: string[] = observable([]);
     const letterDimensions = getLettersDimensions(pricesWorkbook);
     const lettersCalculator = new LettersDimensionsCalculator(letterDimensions)
 
-    const frameCalculator = new FrameCalculator(GetFrameMaterials())
+    const frameCalculator = new FrameCalculator(GetFrameMaterials(pricesWorkbook))
     const backMaterials = getBackMaterials(pricesWorkbook);
     const backCalculator = new BackCalculator(backMaterials, mainTextInput, lettersCalculator);
 

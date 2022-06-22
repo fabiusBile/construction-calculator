@@ -1,7 +1,6 @@
 import FrontMaterial from "./FrontMaterial";
 import ExcelJS from "exceljs";
 
-
 const FRONT_MATERIALS_WORKSHEET_NAME = "Лицевая часть"
 let frontMaterials: FrontMaterial[] | null = null;
 
@@ -15,9 +14,9 @@ export default function getFrontMaterials(pricesWorkbook: ExcelJS.Workbook): Fro
         const result: FrontMaterial[] = [];
         for (let r = 1; r <= sheet.rowCount; r++) {
             const name = sheet.getCell(r, 1).text;
-            if (!name){
+            if (!name) {
                 continue;
-            } 
+            }
             result.push(new FrontMaterial(
                 name,
                 Number(sheet.getCell(r, 2).text) / 10000

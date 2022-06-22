@@ -1,9 +1,9 @@
-export default class FrameMaterial<T extends FrameMaterialType> {
+export default class FrameMaterial{
     name: string;
     price: number;
-    materialType: T;
+    materialType: FrameMaterialType;
     
-    constructor(name: string, price: number, materialType: T) {
+    constructor(name: string, price: number, materialType: FrameMaterialType) {
         this.name = name;
         this.price = price;
         this.materialType = materialType;
