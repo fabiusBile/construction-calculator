@@ -11,3 +11,8 @@ root.render(
     <App />
   </React.StrictMode>
 );
+declare global {
+    interface Window {
+        api?: any;
+    }
+}

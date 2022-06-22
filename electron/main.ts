@@ -1,17 +1,18 @@
-import { app, BrowserWindow } from 'electron';
+import { app, BrowserWindow, ipcMain, dialog } from 'electron';
 import * as path from 'path';
 import * as isDev from 'electron-is-dev';
 import installExtension, { REACT_DEVELOPER_TOOLS } from "electron-devtools-installer";
-
+const fs = require('fs-extra');
+const PRICES_FILE_NAME = "spreadsheets/prices.xlsx"
 let win: BrowserWindow | null = null;
-
 function createWindow() {
     win = new BrowserWindow({
         width: 800,
         height: 600,
         webPreferences: {
             nodeIntegration: true,
-            contextIsolation: false
+            contextIsolation: true,
+            preload: path.join(__dirname, "preload.js"),
         }
     })
 
@@ -55,5 +56,18 @@ app.on('window-all-closed', () => {
 app.on('activate', () => {
     if (win === null) {
         createWindow();
+    }
+});
+
+ipcMain.on("requestPrices",  async (event, args) => {
+    const pricesDirectory = isDev || process.platform === "win32" 
+        ? "./"
+        : path.join(path.dirname(app.getPath("exe")),"../");
+    
+    try {
+        const prices = await fs.readFile(pricesDirectory + PRICES_FILE_NAME);
+        win?.webContents.send("receivePrices", prices);
+    } catch (e){
+        await dialog.showMessageBox({type:"error", message:`Произошла ошибка при загрузке файла цен: ${e}`})
     }
 });

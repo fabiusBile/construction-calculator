@@ -44,7 +44,6 @@ const calculators: ICalculatorBlock[] = observable([])
 const mainTextInput = new MainTextInput();
 const viewNames: string[] = observable([]);
 
-
 (async () => {
     const pricesWorkbook = await loadPrices();
     const letterDimensions = getLettersDimensions(pricesWorkbook);
