@@ -35,9 +35,9 @@ import {getDiodes, getPowerSupplies} from "./calculators/diodes/DiodesRepository
 import DiodesCalculator from "./calculators/diodes/DiodesCalculator";
 import DiodesCalculatorView from "./calculators/diodes/DiodesCalculatorView";
 import loadPrices from "./spreadsheetsInteraction/worksheetsLoader";
+import ceilTo2Decimals from "./shared/ceilTo2Decimals";
 
 const rouble = "₽";
-
 
 const views: React.ReactElement[] = observable([]);
 const calculators: ICalculatorBlock[] = observable([])
@@ -80,8 +80,8 @@ const viewNames: string[] = observable([]);
 })();
 
 function priceView({calculators}: { calculators: ICalculatorBlock[] }) {
-    const total = calculators.reduce((p, c) => p + (c.getPrice()).price, 0);
-    const totalWithMarkup = total + total * (mainTextInput.markup / 100);
+    const total = ceilTo2Decimals(calculators.reduce((p, c) => p + (c.getPrice()).price, 0));
+    const totalWithMarkup = ceilTo2Decimals(total + total * (mainTextInput.markup / 100));
     return (
         <Box>
             <Box sx={{

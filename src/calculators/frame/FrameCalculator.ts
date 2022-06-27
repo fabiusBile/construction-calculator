@@ -1,6 +1,7 @@
 import ICalculatorBlock, {BlockPrice} from "../interfaces/ICalculatorBlock";
 import FrameMaterial from "./FrameMaterial";
 import {action, computed, makeObservable, observable} from "mobx";
+import ceilTo2Decimals from "../../shared/ceilTo2Decimals";
 
 /**
  * Калькулятор каркаса.
@@ -82,7 +83,7 @@ export default class FrameCalculator implements ICalculatorBlock {
 
 
 function getPlatePrice(fm: FrameMaterial, c: FrameCalculator) {
-    const price = fm.price * c.height * c.width;
+    const price = ceilTo2Decimals(fm.price * c.height * c.width);
     return {
         price: price,
         details: {
@@ -92,8 +93,8 @@ function getPlatePrice(fm: FrameMaterial, c: FrameCalculator) {
 }
 
 function getPipePrice(fm: FrameMaterial, c: FrameCalculator) {
-    const horizontalPrice = (fm.price * c.width) * 2
-    const verticalPrice = (fm.price * c.height) * 2;
+    const horizontalPrice = ceilTo2Decimals((fm.price * c.width) * 2)
+    const verticalPrice = ceilTo2Decimals((fm.price * c.height) * 2);
     const details = horizontalPrice === verticalPrice
         ? {[`${fm.name} ${c.width} см. х4`]: horizontalPrice * 2}
         : {

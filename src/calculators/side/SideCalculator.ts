@@ -3,6 +3,7 @@ import SideMaterial from "./SideMaterial";
 import {action, computed, makeObservable, observable} from "mobx";
 import {MainTextInput} from "../../shared/mainTextInput/MainTextInput";
 import LettersDimensionsCalculator from "../../shared/letters/LettersDimensionsCalculator";
+import ceilTo2Decimals from "../../shared/ceilTo2Decimals";
 
 const sideMaterialStep = 200;
 
@@ -46,7 +47,7 @@ export default class SideCalculator implements ICalculatorBlock {
         largestLetterDepth = isFinite(largestLetterDepth) ? largestLetterDepth : 0;
         const lineWithStep = Math.ceil(this.mainTextInput.line / sideMaterialStep) * sideMaterialStep;
         const size = largestLetterDepth * lineWithStep;
-        const price = size * this.currentMaterial.price;
+        const price = ceilTo2Decimals(size * this.currentMaterial.price);
         return {
             price: price,
             details: {

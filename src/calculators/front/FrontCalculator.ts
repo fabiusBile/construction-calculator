@@ -5,6 +5,7 @@ import LettersDimensionsCalculator from "../../shared/letters/LettersDimensionsC
 import {action, computed, makeObservable, observable} from "mobx";
 import getLettersRectangle from "../../shared/letters/LettersRectangleCalculator";
 import {millingPrice} from "../../shared/constants/millingPrice";
+import ceilTo2Decimals from "../../shared/ceilTo2Decimals";
 
 /**
  * Калькулятор стоимости лицевой части буквы.
@@ -47,8 +48,8 @@ export default class FrontCalculator implements ICalculatorBlock {
     getPrice(): BlockPrice {
         const letterSizes = this.letterDimensionsCalculator.getDimensionsForText(this.mainTextInput.fontSize, this.mainTextInput.text);
         const size = getLettersRectangle(letterSizes);
-        const materialPrice = size * this.currentMaterial.price;
-        const totalMillingPrice = this.mainTextInput.line * millingPrice;
+        const materialPrice = ceilTo2Decimals(size * this.currentMaterial.price);
+        const totalMillingPrice = ceilTo2Decimals(this.mainTextInput.line * millingPrice);
         return {
             price: materialPrice + totalMillingPrice,
             details: {
