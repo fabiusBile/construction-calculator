@@ -7,7 +7,7 @@ let sideMaterials: SideMaterial[] | null = null;
 /**
  * Получает материалы торца буквы.
  */
-export default async function getSideMaterials(pricesWorkbook: ExcelJS.Workbook) : Promise<SideMaterial[]> {
+export default async function getSideMaterials(pricesWorkbook: ExcelJS.Workbook): Promise<SideMaterial[]> {
     if (sideMaterials == null) {
         const sheet = pricesWorkbook.getWorksheet(SIDE_MATERIALS_WORKSHEET_NAME);
         const result: SideMaterial[] = [];

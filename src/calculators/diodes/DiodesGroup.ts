@@ -10,7 +10,7 @@ export default class DiodesGroup {
         this.diodeType = diodeType;
         this.count = count;
         this.currentDiodeTypeId = 0;
-        
+
         makeObservable(this, {
             diodeType: observable,
             count: observable,
@@ -19,14 +19,14 @@ export default class DiodesGroup {
             setCount: action
         })
     }
-    
-    setDiodeType(diodeType: DiodeType, diodeTypeId: number){
+
+    setDiodeType(diodeType: DiodeType, diodeTypeId: number) {
         this.diodeType = diodeType;
         this.currentDiodeTypeId = diodeTypeId;
     }
-    
-    setCount(count: number){
-        if (count >= 0){
+
+    setCount(count: number) {
+        if (count >= 0) {
             this.count = count;
         }
     }

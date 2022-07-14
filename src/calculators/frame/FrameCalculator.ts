@@ -12,7 +12,7 @@ export default class FrameCalculator implements ICalculatorBlock {
      * Материалы каркаса.
      */
     materials: FrameMaterial[];
-    
+
     currentMaterialId: number;
     /**
      * Ширина каркаса.

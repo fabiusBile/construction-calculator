@@ -21,7 +21,7 @@ interface PageComponent {
     component: JSX.Element
 }
 
-const pages : Record<string, PageComponent> = {
+const pages: Record<string, PageComponent> = {
     "/": {
         name: "Объемные световые буквы",
         component: <VolumetricLightLetters/>
@@ -68,7 +68,7 @@ function App() {
                         onClick={handleDrawerToggle}
                         sx={{mr: 2}}
                     >
-                        { drawerOpen ? <ArrowBack /> : <MenuIcon/> } 
+                        {drawerOpen ? <ArrowBack/> : <MenuIcon/>}
                     </IconButton>
                     <Typography variant="h6" noWrap component="div">
                         {pages[currentPage].name}

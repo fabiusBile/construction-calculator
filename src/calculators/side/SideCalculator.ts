@@ -17,14 +17,14 @@ export default class SideCalculator implements ICalculatorBlock {
     currentMaterialId: number;
     private mainTextInput: MainTextInput;
     private letterDimensionsCalculator: LettersDimensionsCalculator;
-    
-    
+
+
     constructor(materials: SideMaterial[], mainTextInput: MainTextInput, letterDimensionsCalculator: LettersDimensionsCalculator) {
         this.materials = materials;
         this.mainTextInput = mainTextInput;
         this.letterDimensionsCalculator = letterDimensionsCalculator;
         this.currentMaterialId = materials.findIndex(m => m.price > 0);
-        
+
         makeObservable(this, {
             currentMaterial: computed,
             currentMaterialId: observable,
@@ -42,7 +42,7 @@ export default class SideCalculator implements ICalculatorBlock {
     getPrice(): BlockPrice {
         const letterSizes = this.letterDimensionsCalculator
             .getDimensionsForText(this.mainTextInput.fontSize, this.mainTextInput.text);
-        
+
         let largestLetterDepth = Math.max.apply(null, letterSizes.map(e => e.depth));
         largestLetterDepth = isFinite(largestLetterDepth) ? largestLetterDepth : 0;
         const lineWithStep = Math.ceil(this.mainTextInput.line / sideMaterialStep) * sideMaterialStep;

@@ -1,7 +1,7 @@
 /**
  * Размеры буквы.
  */
-export default interface LetterDimensions{
+export default interface LetterDimensions {
 
     /**
      * Высота.

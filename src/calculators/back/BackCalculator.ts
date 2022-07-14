@@ -22,7 +22,7 @@ export default class BackCalculator implements ICalculatorBlock {
         this.mainTextInput = mainTextInput;
         this.letterDimensionsCalculator = letterDimensionsCalculator;
         this.currentMaterialId = materials.findIndex(m => m.price > 0);
-        
+
         makeObservable(this, {
             currentMaterial: computed,
             currentMaterialId: observable,
@@ -48,12 +48,12 @@ export default class BackCalculator implements ICalculatorBlock {
     getPrice(): BlockPrice {
         const letterSizes = this.letterDimensionsCalculator.getDimensionsForText(this.mainTextInput.fontSize, this.mainTextInput.text);
         const size = getLettersRectangle(letterSizes);
-        const materialPrice = ceilTo2Decimals(size*this.currentMaterial.price);
+        const materialPrice = ceilTo2Decimals(size * this.currentMaterial.price);
         const totalMillingPrice = ceilTo2Decimals(this.mainTextInput.line * millingPrice);
         return {
             price: materialPrice + totalMillingPrice,
             details: {
-                [`${this.currentMaterial.name} ${size} см.^2`]:materialPrice,
+                [`${this.currentMaterial.name} ${size} см.^2`]: materialPrice,
                 [`Фрезеровка ${this.mainTextInput.line} см.`]: totalMillingPrice
             }
         };

@@ -2,7 +2,7 @@ import SideCalculator from "./SideCalculator";
 import {Box, FormControl, InputLabel, ListSubheader, MenuItem, Select} from "@mui/material";
 import {observer} from "mobx-react-lite";
 
-function SideCalculatorView({calculator} : {calculator: SideCalculator}){
+function SideCalculatorView({calculator}: { calculator: SideCalculator }) {
     return (
         <Box>
             <FormControl fullWidth>

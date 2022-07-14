@@ -6,11 +6,11 @@ const leters = ['а', 'б', 'в', 'г', 'д', 'е', 'ё', 'ж', 'з', 'и', 'й'
 export type letter = typeof leters[number];
 const defaultLetter: letter = 'о';
 
-export function isValidLetter(l: unknown){
+export function isValidLetter(l: unknown) {
     return typeof l === "string" && leters.includes(l as letter);
 }
 
-export function toLetter(l: string) : letter{
+export function toLetter(l: string): letter {
     const lower = l.toLowerCase();
-    return  isValidLetter(lower) ? lower as letter : defaultLetter;
+    return isValidLetter(lower) ? lower as letter : defaultLetter;
 }

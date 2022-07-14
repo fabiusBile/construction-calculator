@@ -6,7 +6,7 @@ export default interface ICalculatorBlock {
      * Название блока.
      */
     readonly name: string;
-    
+
     /**
      * Рассчитывает стоимость материалов данного блока.
      */
@@ -16,7 +16,7 @@ export default interface ICalculatorBlock {
 /**
  * Стоимость блока калькулятора.
  */
-export interface BlockPrice{
+export interface BlockPrice {
     /**
      * Стоимость блока.
      */

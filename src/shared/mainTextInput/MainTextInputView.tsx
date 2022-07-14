@@ -11,13 +11,13 @@ const textRegex = /^[А-яA-z,."'!\d-\s+=?]*$/gm;
 function MainTextInputView({mainTextInput}: { mainTextInput: MainTextInput }) {
     return (
         <Box display="grid" gridTemplateColumns="3fr 1fr 1fr 1fr" gap={1}>
-            <FilteredTextField 
-                sx = {{
+            <FilteredTextField
+                sx={{
                     flex: 1
                 }}
                 required
                 label="Текст вывески"
-                filterRegex={textRegex} 
+                filterRegex={textRegex}
                 value={mainTextInput.text}
                 onChange={(e) => mainTextInput.setText(e.target.value)}>
             </FilteredTextField>
@@ -27,7 +27,7 @@ function MainTextInputView({mainTextInput}: { mainTextInput: MainTextInput }) {
                 value={mainTextInput.fontSize}
                 type="number"
                 InputProps={{
-                    inputProps:{min:1, max: mainTextInput.maxFontSize},
+                    inputProps: {min: 1, max: mainTextInput.maxFontSize},
                     endAdornment: <InputAdornment position="end">см.</InputAdornment>
                 }}
                 onChange={(e) => {
@@ -40,7 +40,7 @@ function MainTextInputView({mainTextInput}: { mainTextInput: MainTextInput }) {
                 value={mainTextInput.line}
                 type="number"
                 InputProps={{
-                    inputProps:{min:0},
+                    inputProps: {min: 0},
                     endAdornment: <InputAdornment position="end">см.</InputAdornment>
                 }}
                 onChange={(e) => {
@@ -53,7 +53,7 @@ function MainTextInputView({mainTextInput}: { mainTextInput: MainTextInput }) {
                 value={mainTextInput.markup}
                 type="number"
                 InputProps={{
-                    inputProps:{min:0},
+                    inputProps: {min: 0},
                     endAdornment: <InputAdornment position="end">%</InputAdornment>
                 }}
                 onChange={(e) => {

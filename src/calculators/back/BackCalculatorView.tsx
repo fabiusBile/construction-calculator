@@ -2,7 +2,7 @@ import BackCalculator from "./BackCalculator";
 import {Box, FormControl, InputLabel, ListSubheader, MenuItem, Select} from "@mui/material";
 import {observer} from "mobx-react-lite";
 
-function BackCalculatorView({calculator} : {calculator: BackCalculator}){
+function BackCalculatorView({calculator}: { calculator: BackCalculator }) {
     return (
         <Box>
             <FormControl fullWidth>
@@ -19,7 +19,7 @@ function BackCalculatorView({calculator} : {calculator: BackCalculator}){
                     {calculator.materials.map((value, index) =>
                         value.price === 0
                             ? (<ListSubheader key={index}>{value.name}</ListSubheader>)
-                            : (<MenuItem key={index} value={index}>{value.name}</MenuItem>)                    )}
+                            : (<MenuItem key={index} value={index}>{value.name}</MenuItem>))}
                 </Select>
             </FormControl>
         </Box>

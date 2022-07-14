@@ -47,7 +47,7 @@ function FrameCalculatorView({calculator}: { calculator: FrameCalculator }) {
                     {calculator.materials.map((value, index) =>
                         value.price === 0
                             ? (<ListSubheader key={index}>{value.name}</ListSubheader>)
-                            : (<MenuItem key={index} value={index}>{value.name}</MenuItem>)                    )}
+                            : (<MenuItem key={index} value={index}>{value.name}</MenuItem>))}
                 </Select>
             </FormControl>
         </Box>

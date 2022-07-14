@@ -23,7 +23,7 @@ export class MainTextInput {
      * Наценка.
      */
     markup: number;
-    
+
     /**
      * Максимальный размер шрифта.
      */
@@ -75,8 +75,8 @@ export class MainTextInput {
      * Устанавливает наценку в процентах.
      * @param markup
      */
-    setMarkup(markup: number){
-        if (markup > 0){
+    setMarkup(markup: number) {
+        if (markup > 0) {
             this.markup = markup;
         }
     }
