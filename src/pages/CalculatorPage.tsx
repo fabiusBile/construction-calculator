@@ -1,4 +1,4 @@
-import React, {useEffect} from 'react';
+import React, {useEffect, useState} from 'react';
 import ICalculatorBlock from "../calculators/interfaces/ICalculatorBlock";
 import {
     Avatar,
@@ -15,17 +15,13 @@ import {
 import {blue} from "@mui/material/colors";
 import {observer} from "mobx-react-lite";
 import {MainTextInput} from "../shared/mainTextInput/MainTextInput";
-import {observable} from "mobx";
 import ceilTo2Decimals from "../shared/ceilTo2Decimals";
 import ErrorHandler from "../shared/ErrorHandler";
 import {ErrorBoundary} from "react-error-boundary";
 
 const rouble = "₽";
 
-const views: React.ReactElement[] = observable([]);
-const calculators: ICalculatorBlock[] = observable([])
 const mainTextInput = new MainTextInput();
-const viewNames: string[] = observable([]);
 
 function priceView({calculators}: { calculators: ICalculatorBlock[] }) {
     const total = ceilTo2Decimals(calculators.reduce((p, c) => p + (c.getPrice()).price, 0));
@@ -132,47 +128,43 @@ export interface CalculatorData {
  * @constructor
  */
 function CalculatorView({getCalculatorData}: { getCalculatorData: () => Promise<CalculatorData> }) {
+    const [views, setViews] = useState<React.ReactElement[]>([])
+    const [calculators, setCalculators] = useState<ICalculatorBlock[]>([])
+    const [viewNames, setViewNames] = useState<string[]>([])
+
     useEffect(() => {
-        if (calculators.length !== 0 && views.length !== 0) {
-            return;
-        }
         getCalculatorData().then((cd) => {
-            if (calculators.length !== 0 && views.length !== 0) {
-                return;
-            }
-            calculators.push(...cd.calculators);
-            views.push(...cd.views);
-            viewNames.push(
-                "Текст",
-                ...calculators.map((e) => e.name)
-            )
+            setCalculators(cd.calculators);
+            setViews(cd.views);
+            setViewNames(["Текст", ...cd.calculators.map((e) => e.name)])
         }).catch((e) => alert(e))
     }, [getCalculatorData])
+    
     return views.length > 0 ? (
         <ErrorBoundary FallbackComponent={ErrorHandler}>
-        <Container>
-            {views.map((value, index) => (
-                <Box key={index}>
-                    <Box sx={{
-                        display: 'flex',
-                        flexDirection: 'row',
-                        alignItems: 'center',
-                        gap: 1,
-                        my: 2
-                    }}>
-                        <Avatar sx={{bgcolor: blue[900]}}>{index + 1}</Avatar>
-                        <Typography variant="h6">
-                            {viewNames[index]}
-                        </Typography>
-                        <Divider sx={{flex: 1}}></Divider>
+            <Container>
+                {views.map((value, index) => (
+                    <Box key={index}>
+                        <Box sx={{
+                            display: 'flex',
+                            flexDirection: 'row',
+                            alignItems: 'center',
+                            gap: 1,
+                            my: 2
+                        }}>
+                            <Avatar sx={{bgcolor: blue[900]}}>{index + 1}</Avatar>
+                            <Typography variant="h6">
+                                {viewNames[index]}
+                            </Typography>
+                            <Divider sx={{flex: 1}}></Divider>
+                        </Box>
+                        <Paper sx={{p: 2}} square>
+                            {value}
+                        </Paper>
                     </Box>
-                    <Paper sx={{p: 2}} square>
-                        {value}
-                    </Paper>
-                </Box>
-            ))}
-            <PriceViewObservable calculators={calculators}></PriceViewObservable>
-        </Container>
+                ))}
+                <PriceViewObservable calculators={calculators}></PriceViewObservable>
+            </Container>
         </ErrorBoundary>
     ) : (
         <Box display="flex" alignItems="center" justifyContent="center" height="100vh" flexDirection="column" gap={1}>
@@ -184,4 +176,4 @@ function CalculatorView({getCalculatorData}: { getCalculatorData: () => Promise<
     );
 }
 
-export default observer(CalculatorView);
+export default CalculatorView;

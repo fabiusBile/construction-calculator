@@ -1,13 +1,8 @@
 import FrontMaterial from "./FrontMaterial";
 import ExcelJS from "exceljs";
+import memoizeSpreadsheetData from "../../shared/memoizeSpreadsheetData";
 
-let frontMaterials: FrontMaterial[] | null = null;
-
-/**
- * Получает материалы лицевой части.
- */
-export default function getFrontMaterials(sheet: ExcelJS.Worksheet): FrontMaterial[] {
-    if (frontMaterials == null) {
+function getFrontMaterialsBase(sheet: ExcelJS.Worksheet): FrontMaterial[] {
         const result: FrontMaterial[] = [];
         for (let r = 1; r <= sheet.rowCount; r++) {
             const name = sheet.getCell(r, 1).text;
@@ -19,7 +14,10 @@ export default function getFrontMaterials(sheet: ExcelJS.Worksheet): FrontMateri
                 Number(sheet.getCell(r, 2).text) / 10000
             ))
         }
-        frontMaterials = result;
-    }
-    return frontMaterials;
+        return  result;
 }
+
+/**
+ * Получает материалы лицевой части.
+ */
+export const getFrontMaterials = memoizeSpreadsheetData(getFrontMaterialsBase);

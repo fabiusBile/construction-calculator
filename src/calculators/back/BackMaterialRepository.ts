@@ -1,13 +1,8 @@
 import BackMaterial from "./BackMaterial";
 import ExcelJS from "exceljs";
+import memoizeSpreadsheetData from "../../shared/memoizeSpreadsheetData";
 
-let backMaterials: BackMaterial[] | null = null;
-
-/**
- * Получает материалы задника.
- */
-export default function getBackMaterials(sheet: ExcelJS.Worksheet): BackMaterial[] {
-    if (backMaterials == null) {
+function getBackMaterialsBase(sheet: ExcelJS.Worksheet): BackMaterial[] {
         const result: BackMaterial[] = [];
         for (let r = 1; r <= sheet.rowCount; r++) {
             const name = sheet.getCell(r, 1).text;
@@ -19,7 +14,10 @@ export default function getBackMaterials(sheet: ExcelJS.Worksheet): BackMaterial
                 Number(sheet.getCell(r, 2).text) / 10000
             ))
         }
-        backMaterials = result;
-    }
-    return backMaterials;
+    return result;
 }
+
+/**
+ * Получает материалы задника.
+ */
+export const getBackMaterials = memoizeSpreadsheetData(getBackMaterialsBase);

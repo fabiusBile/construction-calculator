@@ -1,10 +1,8 @@
 import FrameMaterial from "./FrameMaterial";
 import ExcelJS from "exceljs";
+import memoizeSpreadsheetData from "../../shared/memoizeSpreadsheetData";
 
-let frameMaterials: FrameMaterial[] | null;
-
-export default function GetFrameMaterials(sheet: ExcelJS.Worksheet): FrameMaterial[] {
-    if (frameMaterials == null) {
+function getFrameMaterialsBase(sheet: ExcelJS.Worksheet): FrameMaterial[] {
         const result: FrameMaterial[] = [];
         for (let r = 1; r <= sheet.rowCount; r++) {
             const name = sheet.getCell(r, 1).text;
@@ -17,9 +15,11 @@ export default function GetFrameMaterials(sheet: ExcelJS.Worksheet): FrameMateri
                 sheet.getCell(r, 3).text === "Труба" ? "pipe" : "plate"
             ))
         }
-
-        frameMaterials = result;
-    }
-
-    return frameMaterials;
+        
+        return result;
 }
+
+/**
+ * Получает материалы лицевой части.
+ */
+export const getFrameMaterials = memoizeSpreadsheetData(getFrameMaterialsBase);

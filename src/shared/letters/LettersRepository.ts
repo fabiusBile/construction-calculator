@@ -2,32 +2,24 @@ import LettersDimensionsForSize from "./LettersDimensionsForSize";
 import ExcelJS from "exceljs";
 import {letter, toLetter} from "./Letter";
 import LetterDimensions from "./LetterDimensions";
+import memoizeSpreadsheetData from "../memoizeSpreadsheetData";
 
-let letterDimensionsForSize: LettersDimensionsForSize[] | null = null;
-const LETTERS_WORKSHEET_NAME = "Буквы";
 const lettersTitleRegex = /^БУКВЫ (?<min>\d+)-(?<max>\d+)СМ$/gi
 
-/**
- * Возвращает размеры букв.
- */
-export default function getLettersDimensions(pricesWorkbook: ExcelJS.Workbook): LettersDimensionsForSize[] {
-    if (letterDimensionsForSize == null) {
-        const sheet = pricesWorkbook.getWorksheet(LETTERS_WORKSHEET_NAME);
-        const firstColumn = sheet.getColumn(1);
-        const result: LettersDimensionsForSize[] = [];
-        firstColumn.eachCell((cell, row) => {
-            const regexMatch = lettersTitleRegex.exec(cell.text);
-            if (regexMatch) {
-                result.push(getLetterDimensionsFromSheet(Number(regexMatch.groups!.min),
-                    Number(regexMatch.groups!.max),
-                    row,
-                    sheet))
-            }
-        })
+function getLettersDimensionsBase(sheet: ExcelJS.Worksheet): LettersDimensionsForSize[] {
+    const firstColumn = sheet.getColumn(1);
+    const result: LettersDimensionsForSize[] = [];
+    firstColumn.eachCell((cell, row) => {
+        const regexMatch = lettersTitleRegex.exec(cell.text);
+        if (regexMatch) {
+            result.push(getLetterDimensionsFromSheet(Number(regexMatch.groups!.min),
+                Number(regexMatch.groups!.max),
+                row,
+                sheet))
+        }
+    })
 
-        letterDimensionsForSize = result;
-    }
-    return letterDimensionsForSize;
+    return result;
 }
 
 function getLetterDimensionsFromSheet(min: number, max: number, rowNumber: number, sheet: ExcelJS.Worksheet): LettersDimensionsForSize {
@@ -49,5 +41,8 @@ function getLetterDimensionsFromSheet(min: number, max: number, rowNumber: numbe
     }
 }
 
-
+/**
+ * Возвращает размеры букв.
+ */
+export const getLettersDimensions = memoizeSpreadsheetData(getLettersDimensionsBase);
 

@@ -1,13 +1,8 @@
 import SideMaterial from "./SideMaterial";
 import ExcelJS from "exceljs";
+import memoizeSpreadsheetData from "../../shared/memoizeSpreadsheetData";
 
-let sideMaterials: SideMaterial[] | null = null;
-
-/**
- * Получает материалы торца буквы.
- */
-export default async function getSideMaterials(sheet: ExcelJS.Worksheet): Promise<SideMaterial[]> {
-    if (sideMaterials == null) {
+function getSideMaterialsBase(sheet: ExcelJS.Worksheet): SideMaterial[] {
         const result: SideMaterial[] = [];
         for (let r = 1; r <= sheet.rowCount; r++) {
             const name = sheet.getCell(r, 1).text;
@@ -19,7 +14,10 @@ export default async function getSideMaterials(sheet: ExcelJS.Worksheet): Promis
                 Number(sheet.getCell(r, 2).text) / 10000
             ))
         }
-        sideMaterials = result;
-    }
-    return sideMaterials;
+    return result;
 }
+
+/**
+ * Получает материалы торца буквы.
+ */
+export const getSideMaterials = memoizeSpreadsheetData(getSideMaterialsBase)
