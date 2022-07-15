@@ -15,6 +15,7 @@ import {NavLink, Route, Routes, useLocation,} from "react-router-dom";
 import VolumetricLightLetters from "./pages/VolumetricLightLetters";
 import MenuIcon from '@mui/icons-material/Menu';
 import {ArrowBack} from "@mui/icons-material";
+import ContourLightLetters from "./pages/ContourLightLetters";
 
 interface PageComponent {
     name: string,
@@ -26,9 +27,9 @@ const pages: Record<string, PageComponent> = {
         name: "Объемные световые буквы",
         component: <VolumetricLightLetters/>
     },
-    "/test": {
-        name: "Test",
-        component: <Box>asd</Box>
+    "/contour": {
+        name: "Световые буквы с контурной подсветкой",
+        component: <ContourLightLetters />
     }
 }
 
