@@ -104,13 +104,13 @@ function App() {
                     duration: theme.transitions.duration.enteringScreen,
                 }),
             }}>
-                <Routes>
-                    {
-                        Object.entries(pages).map(([link, {component}], i) => (
-                            <Route path={link} element={component} key={i}/>
-                        ))
-                    }
-                </Routes>
+                    <Routes>
+                        {
+                            Object.entries(pages).map(([link, {component}], i) => (
+                                <Route path={link} element={component} key={i}/>
+                            ))
+                        }
+                    </Routes>
             </Box>
         </Box>
     )

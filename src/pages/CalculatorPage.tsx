@@ -17,6 +17,8 @@ import {observer} from "mobx-react-lite";
 import {MainTextInput} from "../shared/mainTextInput/MainTextInput";
 import {observable} from "mobx";
 import ceilTo2Decimals from "../shared/ceilTo2Decimals";
+import ErrorHandler from "../shared/ErrorHandler";
+import {ErrorBoundary} from "react-error-boundary";
 
 const rouble = "₽";
 
@@ -147,6 +149,7 @@ function CalculatorView({getCalculatorData}: { getCalculatorData: () => Promise<
         }).catch((e) => alert(e))
     }, [getCalculatorData])
     return views.length > 0 ? (
+        <ErrorBoundary FallbackComponent={ErrorHandler}>
         <Container>
             {views.map((value, index) => (
                 <Box key={index}>
@@ -170,6 +173,7 @@ function CalculatorView({getCalculatorData}: { getCalculatorData: () => Promise<
             ))}
             <PriceViewObservable calculators={calculators}></PriceViewObservable>
         </Container>
+        </ErrorBoundary>
     ) : (
         <Box display="flex" alignItems="center" justifyContent="center" height="100vh" flexDirection="column" gap={1}>
             <CircularProgress color="secondary"/>
