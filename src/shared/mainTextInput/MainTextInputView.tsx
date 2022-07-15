@@ -1,26 +1,19 @@
 import {Box, InputAdornment, TextField} from "@mui/material";
 import {MainTextInput} from "./MainTextInput";
-import FilteredTextField from "../FilteredTextField";
 import {observer} from "mobx-react-lite";
-
-/**
- * Регулярное выражение для проверки текста.
- */
-const textRegex = /^[А-яA-z,."'!\d-\s+=?]*$/gm;
 
 function MainTextInputView({mainTextInput}: { mainTextInput: MainTextInput }) {
     return (
         <Box display="grid" gridTemplateColumns="3fr 1fr 1fr 1fr" gap={1}>
-            <FilteredTextField
+            <TextField
                 sx={{
                     flex: 1
                 }}
                 required
                 label="Текст вывески"
-                filterRegex={textRegex}
                 value={mainTextInput.text}
                 onChange={(e) => mainTextInput.setText(e.target.value)}>
-            </FilteredTextField>
+            </TextField>
             <TextField
                 required
                 label="Размер шрифта"

@@ -20,6 +20,7 @@ import DiodesCalculator from "../calculators/diodes/DiodesCalculator";
 import DiodesCalculatorView from "../calculators/diodes/DiodesCalculatorView";
 import loadPrices from "../spreadsheetsInteraction/worksheetsLoader";
 import CalculatorView, {CalculatorData} from "./CalculatorPage";
+import {sheetNames} from "../spreadsheetsInteraction/sheetNames";
 
 const mainTextInput = new MainTextInput();
 
@@ -28,18 +29,20 @@ async function getCalculatorData(): Promise<CalculatorData> {
     const letterDimensions = getLettersDimensions(pricesWorkbook);
     const lettersCalculator = new LettersDimensionsCalculator(letterDimensions)
 
-    const frameCalculator = new FrameCalculator(GetFrameMaterials(pricesWorkbook))
-    const backMaterials = getBackMaterials(pricesWorkbook);
+    const frameCalculator = new FrameCalculator(
+        GetFrameMaterials(
+            pricesWorkbook.getWorksheet(sheetNames.FRAME_MATERIALS_WORKSHEET_NAME)))
+    
+    const backMaterials = getBackMaterials(pricesWorkbook.getWorksheet(sheetNames.BACK_MATERIALS_WORKSHEET_NAME));
     const backCalculator = new BackCalculator(backMaterials, mainTextInput, lettersCalculator);
-
-    const frontMaterials = getFrontMaterials(pricesWorkbook);
+    const frontMaterials = getFrontMaterials(pricesWorkbook.getWorksheet(sheetNames.FRONT_MATERIALS_WORKSHEET_NAME));
     const frontCalculator = new FrontCalculator(frontMaterials, mainTextInput, lettersCalculator);
 
-    const sideMaterials = await getSideMaterials(pricesWorkbook);
+    const sideMaterials = await getSideMaterials(pricesWorkbook.getWorksheet(sheetNames.SIDE_MATERIALS_WORKSHEET_NAME));
     const sideCalculator = new SideCalculator(sideMaterials, mainTextInput, lettersCalculator);
 
-    const diodesTypes = getDiodes(pricesWorkbook);
-    const powerSupplies = getPowerSupplies(pricesWorkbook);
+    const diodesTypes = getDiodes(pricesWorkbook.getWorksheet(sheetNames.DIODES_WORKSHEET_NAME));
+    const powerSupplies = getPowerSupplies(pricesWorkbook.getWorksheet(sheetNames.POWER_SUPPLIES_WORKSHEET_NAME));
     const diodesCalculator = new DiodesCalculator(diodesTypes, powerSupplies);
 
     return {

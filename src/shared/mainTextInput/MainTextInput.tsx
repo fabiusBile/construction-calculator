@@ -1,6 +1,11 @@
 import {action, makeObservable, observable} from "mobx";
 
 /**
+ * Регулярное выражение для проверки текста.
+ */
+const textRegex = /^[А-яA-z,."'!\d-\s+=?]*$/gm;
+
+/**
  * Класс для основного пользовательского ввода текста.
  */
 export class MainTextInput {
@@ -41,7 +46,8 @@ export class MainTextInput {
                 line: observable,
                 markup: observable,
                 setText: action,
-                setLine: action
+                setLine: action,
+                setFontSize: action
             });
     }
 
@@ -50,7 +56,9 @@ export class MainTextInput {
      * @param text Размер шрифта.
      */
     setText(text: string) {
-        this.text = text;
+        if (text.match(textRegex)) {
+            this.text = text;
+        }
     }
 
     /**
