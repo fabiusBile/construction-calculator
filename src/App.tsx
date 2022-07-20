@@ -16,6 +16,7 @@ import VolumetricLightLetters from "./pages/VolumetricLightLetters";
 import MenuIcon from '@mui/icons-material/Menu';
 import {ArrowBack} from "@mui/icons-material";
 import ContourLightLetters from "./pages/ContourLightLetters";
+import LightSideLetters from "./pages/LightSideLetters";
 
 interface PageComponent {
     name: string,
@@ -30,7 +31,11 @@ const pages: Record<string, PageComponent> = {
     "/contour": {
         name: "Световые буквы с контурной подсветкой",
         component: <ContourLightLetters />
-    }
+    },
+    "/lightside": {
+        name: "Световой торец",
+        component: <LightSideLetters />
+    },
 }
 
 function App() {

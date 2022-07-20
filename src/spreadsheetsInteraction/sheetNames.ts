@@ -6,4 +6,5 @@ export const sheetNames = {
     FRAME_MATERIALS_WORKSHEET_NAME: "Каркас",
     FRONT_MATERIALS_WORKSHEET_NAME: "Лицевая часть",
     SIDE_MATERIALS_WORKSHEET_NAME: "Торец",
+    LIGHT_SIDE_MATERIALS_WORKSHEET_NAME: "Световой торец",
 } as const
