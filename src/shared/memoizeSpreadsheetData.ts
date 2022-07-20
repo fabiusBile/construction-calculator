@@ -7,7 +7,7 @@ import ExcelJS from "exceljs";
 export default function memoizeSpreadsheetData<TResult> (func : (sheet : ExcelJS.Worksheet) => TResult){
     const results : Record<string, any> = {};
     return (sheet : ExcelJS.Worksheet) => {
-        const argsKey = sheet.name;
+        const argsKey = `${func.name}-${sheet.name}`;
         if (!results[argsKey]) {
             results[argsKey] = func(sheet);
         }
