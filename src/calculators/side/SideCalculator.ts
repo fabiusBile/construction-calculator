@@ -66,7 +66,7 @@ export default class SideCalculator implements ICalculatorBlock {
     } 
     
     private getStripPrice(){
-        const lineWithStep = Math.ceil(this.mainTextInput.line / sideMaterialPlateStep) * sideMaterialStripStep;
+        const lineWithStep = Math.ceil(this.mainTextInput.line / sideMaterialStripStep) * sideMaterialStripStep;
         const price = ceilTo2Decimals(lineWithStep * this.currentMaterial.price);
         return{
             price: price,
