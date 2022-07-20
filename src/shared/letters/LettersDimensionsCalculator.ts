@@ -4,8 +4,7 @@ import {toLetter} from "./Letter";
 
 export default class LettersDimensionsCalculator {
     dimensionsForSizes: LettersDimensionsForSize[];
-
-
+    
     constructor(dimensionsForSizes: LettersDimensionsForSize[]) {
         this.dimensionsForSizes = dimensionsForSizes;
     }
@@ -23,7 +22,7 @@ export default class LettersDimensionsCalculator {
             return [];
         }
 
-        return lettersArray.map(l => {
+        return lettersArray.filter(l => l !== " ").map(l => {
             const letter = toLetter(l);
             const dimensions = dimensionGroup.lettersDimensions[letter];
             if (dimensions === undefined) {

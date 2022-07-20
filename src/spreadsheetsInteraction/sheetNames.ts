@@ -1,4 +1,5 @@
 export const sheetNames = {
+    ASSEMBLY_WORKSHEET_NAME: "Сборка",
     LETTERS_WORKSHEET_NAME: "Буквы",
     BACK_MATERIALS_WORKSHEET_NAME: "Задник",
     DIODES_WORKSHEET_NAME: "Светодиоды",
