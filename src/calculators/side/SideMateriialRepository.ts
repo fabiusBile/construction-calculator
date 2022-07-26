@@ -12,7 +12,7 @@ function getSideMaterialsBase(sheet: ExcelJS.Worksheet): SideMaterial[] {
             const type = sheet.getCell(r, 3).text === "Лист" ? "plate" : "strip";
             result.push(new SideMaterial(
                 name,
-                Number(sheet.getCell(r, 2).text) / (type === "plate" ? 10000 : 1), 
+                Number(sheet.getCell(r, 2).text) / (type === "plate" ? 10000 : 100), 
                  type
             ))
         }
