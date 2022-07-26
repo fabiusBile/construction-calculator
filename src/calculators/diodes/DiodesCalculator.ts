@@ -59,7 +59,7 @@ export default class DiodesCalculator implements ICalculatorBlock {
     }
 
     getPrice(): BlockPrice {
-        const price = this.currentPowerSupply.price + this.diodesGroups.reduce((n, d) => n + d.count * d.diodeType.price, 0);
+        const totalDiodesPrices = this.diodesGroups.reduce((n, d) => n + d.count * d.diodeType.price, 0);
         const diodesPrices = Object.values(this.diodesGroups
             .reduce((g, e) => {
                     const {power, price} = e.diodeType;
@@ -75,10 +75,10 @@ export default class DiodesCalculator implements ICalculatorBlock {
                 , {} as Record<"price" | "count" | "power", number>[]))
             .reduce((g, e) => ({
                 ...g,
-                [`${e.power} x ${e.count}`]: price
+                [`${e.power} x ${e.count}`]: totalDiodesPrices
             }), {});
         return {
-            price: price,
+            price: totalDiodesPrices + this.currentPowerSupply.price,
             details: {
                 [this.currentPowerSupply.name]: this.currentPowerSupply.price,
                 ...diodesPrices
