@@ -21,6 +21,8 @@ import {getFrameMaterials} from "../calculators/frame/FrameCalculatorRepository"
 import {getSideMaterials} from "../calculators/side/SideMateriialRepository";
 import {getLettersDimensions} from "../shared/letters/LettersRepository";
 import {getFrontMaterials} from "../calculators/front/FrontMaterialRepository";
+import AssemblyCalculator from "../calculators/assembly/AssemblyCalculator";
+import {getAssemblyPrice} from "../calculators/assembly/AssemblyRepository";
 
 const mainTextInput = new MainTextInput();
 
@@ -42,9 +44,11 @@ async function getCalculatorData(): Promise<CalculatorData> {
     const diodesTypes = getDiodes(pricesWorkbook.getWorksheet(sheetNames.DIODES_WORKSHEET_NAME));
     const powerSupplies = getPowerSupplies(pricesWorkbook.getWorksheet(sheetNames.POWER_SUPPLIES_WORKSHEET_NAME));
     const diodesCalculator = new DiodesCalculator(diodesTypes, powerSupplies);
+    const assemblyPrice = getAssemblyPrice(pricesWorkbook.getWorksheet(sheetNames.ASSEMBLY_WORKSHEET_NAME));
+    const assemblyCalculator = new AssemblyCalculator(assemblyPrice, mainTextInput, lettersCalculator);
 
     return {
-        calculators: [frameCalculator, backCalculator, frontCalculator, sideCalculator, diodesCalculator],
+        calculators: [frameCalculator, backCalculator, frontCalculator, sideCalculator, diodesCalculator, assemblyCalculator],
         views: [
             <MainTextInputView mainTextInput={mainTextInput}/>,
             <FrameCalculatorView calculator={frameCalculator}/>,
