@@ -29,6 +29,7 @@ export default class SideCalculator implements ICalculatorBlock {
             currentMaterial: computed,
             currentMaterialId: observable,
             setCurrentMaterial: action,
+            price: computed
         })
     }
 
@@ -39,12 +40,14 @@ export default class SideCalculator implements ICalculatorBlock {
         return this.materials[this.currentMaterialId]
     };
 
-    getPrice(): BlockPrice {
+    get price(): BlockPrice {
         switch (this.currentMaterial.type){
             case "plate":
                 return this.getPlatePrice();
             case "strip":
                 return this.getStripPrice();
+            default:
+                throw new Error("Неизвестный тип материала")
         }
     }
 

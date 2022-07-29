@@ -24,7 +24,7 @@ const rouble = "₽";
 const mainTextInput = new MainTextInput();
 
 function priceView({calculators}: { calculators: ICalculatorBlock[] }) {
-    const total = ceilTo2Decimals(calculators.reduce((p, c) => p + (c.getPrice()).price, 0));
+    const total = ceilTo2Decimals(calculators.reduce((p, c) => p + (c.price).price, 0));
     const totalWithMarkup = ceilTo2Decimals(total + total * (mainTextInput.markup / 100));
     return (
         <Box>
@@ -45,7 +45,7 @@ function priceView({calculators}: { calculators: ICalculatorBlock[] }) {
                 <Typography component="div">
                     <List>
                         {calculators.map((c, ci) => {
-                            const price = c.getPrice();
+                            const price = c.price;
                             const detailsKeys = Object.keys(price.details);
                             return <ListItem key={ci}>
                                 <Box sx={{flex: 1}}>

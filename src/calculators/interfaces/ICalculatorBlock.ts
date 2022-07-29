@@ -10,7 +10,7 @@ export default interface ICalculatorBlock {
     /**
      * Рассчитывает стоимость материалов данного блока.
      */
-    getPrice: () => BlockPrice;
+    readonly price: BlockPrice;
 }
 
 /**

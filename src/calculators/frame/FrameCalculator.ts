@@ -71,12 +71,14 @@ export default class FrameCalculator implements ICalculatorBlock {
     /**
      * Рассчитывает цену каркаса.
      */
-    getPrice(): BlockPrice {
+    get price(): BlockPrice {
         switch (this.currentMaterial.materialType) {
             case "pipe":
                 return getPipePrice(this.currentMaterial, this);
             case "plate":
                 return getPlatePrice(this.currentMaterial, this);
+            default:
+                throw new Error("Неизвестный тип материала")
         }
     }
 }

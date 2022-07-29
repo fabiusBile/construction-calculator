@@ -6,10 +6,10 @@ export default class DiodesGroup {
     count: number;
     currentDiodeTypeId: number;
 
-    constructor(diodeType: DiodeType, count: number) {
+    constructor(diodeType: DiodeType, currentDiodeTypeId: number) {
         this.diodeType = diodeType;
-        this.count = count;
-        this.currentDiodeTypeId = 0;
+        this.count = 1;
+        this.currentDiodeTypeId = currentDiodeTypeId;
 
         makeObservable(this, {
             diodeType: observable,

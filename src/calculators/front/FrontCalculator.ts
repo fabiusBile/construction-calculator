@@ -27,6 +27,7 @@ export default class FrontCalculator implements ICalculatorBlock {
             currentMaterial: computed,
             currentMaterialId: observable,
             setCurrentMaterial: action,
+            price: computed
         })
     }
 
@@ -45,7 +46,7 @@ export default class FrontCalculator implements ICalculatorBlock {
         this.currentMaterialId = materialIndex;
     }
 
-    getPrice(): BlockPrice {
+    get price(): BlockPrice {
         const letterSizes = this.letterDimensionsCalculator.getDimensionsForText(this.mainTextInput.fontSize, this.mainTextInput.text);
         const size = getLettersRectangle(letterSizes);
         const materialPrice = ceilTo2Decimals(size * this.currentMaterial.price);
