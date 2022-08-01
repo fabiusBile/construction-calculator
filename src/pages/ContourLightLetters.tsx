@@ -1,7 +1,7 @@
 import React from 'react';
 import FrameCalculator from "../calculators/frame/FrameCalculator";
 import FrameCalculatorView from "../calculators/frame/FrameCalculatorView";
-import {MainTextInput} from "../shared/mainTextInput/MainTextInput";
+import {mainTextInput} from "../shared/mainTextInput/MainTextInput";
 import MainTextInputView from "../shared/mainTextInput/MainTextInputView";
 import LettersDimensionsCalculator from "../shared/letters/LettersDimensionsCalculator";
 import BackCalculator from "../calculators/back/BackCalculator";
@@ -24,13 +24,11 @@ import {getFrontMaterials} from "../calculators/front/FrontMaterialRepository";
 import {getAssemblyPrice} from "../calculators/assembly/AssemblyRepository";
 import AssemblyCalculator from "../calculators/assembly/AssemblyCalculator";
 
-const mainTextInput = new MainTextInput();
-
 async function getCalculatorData(): Promise<CalculatorData> {
     const pricesWorkbook = await loadPrices();
     const letterDimensions = getLettersDimensions(pricesWorkbook.getWorksheet(sheetNames.LETTERS_WORKSHEET_NAME));
     const lettersCalculator = new LettersDimensionsCalculator(letterDimensions)
-    
+
     const frameCalculator = new FrameCalculator(
         getFrameMaterials(
             pricesWorkbook.getWorksheet(sheetNames.FRAME_MATERIALS_WORKSHEET_NAME)))
@@ -48,7 +46,7 @@ async function getCalculatorData(): Promise<CalculatorData> {
     const diodesCalculator = new DiodesCalculator(diodesTypes, powerSupplies);
     const assemblyPrice = getAssemblyPrice(pricesWorkbook.getWorksheet(sheetNames.ASSEMBLY_WORKSHEET_NAME));
     const assemblyCalculator = new AssemblyCalculator(assemblyPrice, mainTextInput, lettersCalculator);
-    
+
     return {
         calculators: [frameCalculator, backCalculator, frontCalculator, sideCalculator, diodesCalculator, assemblyCalculator],
         views: [
@@ -67,5 +65,5 @@ async function getCalculatorData(): Promise<CalculatorData> {
  * @constructor
  */
 export default function ContourLightLetters() {
-    return <CalculatorView getCalculatorData={getCalculatorData}/>
+    return <CalculatorView getCalculatorData={getCalculatorData} mainTextInput={mainTextInput}/>
 }

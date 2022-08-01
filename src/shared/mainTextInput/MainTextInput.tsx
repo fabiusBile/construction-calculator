@@ -47,7 +47,8 @@ export class MainTextInput {
                 markup: observable,
                 setText: action,
                 setLine: action,
-                setFontSize: action
+                setFontSize: action,
+                setMarkup: action
             });
     }
 
@@ -89,3 +90,5 @@ export class MainTextInput {
         }
     }
 }
+
+export const mainTextInput = new MainTextInput();

@@ -21,9 +21,7 @@ import {ErrorBoundary} from "react-error-boundary";
 
 const rouble = "₽";
 
-const mainTextInput = new MainTextInput();
-
-function priceView({calculators}: { calculators: ICalculatorBlock[] }) {
+function priceView({calculators, mainTextInput}: { calculators: ICalculatorBlock[], mainTextInput: MainTextInput }) {
     const total = ceilTo2Decimals(calculators.reduce((p, c) => p + (c.price).price, 0));
     const totalWithMarkup = ceilTo2Decimals(total + total * (mainTextInput.markup / 100));
     return (
@@ -125,9 +123,13 @@ export interface CalculatorData {
 /**
  * Базовый компонент для страниц калькулятора.
  * @param getCalculatorData Функция получения данных калькулятора.
+ * @param mainTextInput Пользовательский ввод
  * @constructor
  */
-function CalculatorView({getCalculatorData}: { getCalculatorData: () => Promise<CalculatorData> }) {
+function CalculatorView({
+                            getCalculatorData,
+                            mainTextInput
+                        }: { getCalculatorData: () => Promise<CalculatorData>, mainTextInput: MainTextInput }) {
     const [views, setViews] = useState<React.ReactElement[]>([])
     const [calculators, setCalculators] = useState<ICalculatorBlock[]>([])
     const [viewNames, setViewNames] = useState<string[]>([])
@@ -139,7 +141,7 @@ function CalculatorView({getCalculatorData}: { getCalculatorData: () => Promise<
             setViewNames(["Текст", ...cd.calculators.map((e) => e.name)])
         }).catch((e) => alert(e))
     }, [getCalculatorData])
-    
+
     return views.length > 0 ? (
         <ErrorBoundary FallbackComponent={ErrorHandler}>
             <Container>
@@ -163,7 +165,7 @@ function CalculatorView({getCalculatorData}: { getCalculatorData: () => Promise<
                         </Paper>
                     </Box>
                 ))}
-                <PriceViewObservable calculators={calculators}></PriceViewObservable>
+                <PriceViewObservable calculators={calculators} mainTextInput={mainTextInput}></PriceViewObservable>
             </Container>
         </ErrorBoundary>
     ) : (
